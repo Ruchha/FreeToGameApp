@@ -2,9 +2,11 @@ import {FC, useState} from 'react';
 import { gamesAPI } from '../services/GamesServices';
 import GameCard from './GameCard';
 import { Row, Alert } from 'antd'
+import { useAppSelector } from '../hooks/redux';
 
 const GamesList: FC = () => {
-    const {data: games, error} = gamesAPI.useFetchGamesQuery("")
+    const filter = useAppSelector(state => state.filter)
+    const {data: games, error} = gamesAPI.useFetchGamesQuery(filter)
     const [visible, setVisible] = useState(false)
 
     if(error){

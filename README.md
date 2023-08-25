@@ -10,7 +10,7 @@ npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
 
 Entry task for avito internships
 
-Stack is React, Redux + Redux Toolkit + RTK Query, Ant Design
+Stack is React, TypeScript, Redux + Redux Toolkit + RTK Query, Ant Design
 
 ## Scripts
 

@@ -2,10 +2,10 @@ import React from 'react';
 import { Card, Col } from 'antd';
 import { IGame } from '../models/IGame';
 import { Link } from 'react-router-dom'
+
 interface Props {
     game: IGame;
 }
-
 const { Meta } = Card;
 
 const GameCard: React.FC<Props> = ({ game }) => {

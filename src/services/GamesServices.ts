@@ -12,11 +12,17 @@ export const gamesAPI = createApi({
     
     endpoints: build => ({
         fetchGameById: build.query<IGame, number>({
-            query: id => `game?id=${id}`
+            query: id => `game?id=${id}`,
+            keepUnusedDataFor: 300
         }),
-        fetchGames: build.query<IGame[], string>({
+        fetchGames: build.query<IGame[], Record<string, string>>({
             query: params => {
-              const queryParams = new URLSearchParams(params);
+              const queryParams = new URLSearchParams();
+              Object.entries(params).forEach(([key, value]) => {
+                if (value) {
+                    queryParams.set(key, value);
+                }
+            });
               return `games?${queryParams.toString()}`;
             },
           }),

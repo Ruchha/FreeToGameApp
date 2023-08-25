@@ -1,8 +1,10 @@
 import { configureStore, combineReducers, getDefaultMiddleware } from "@reduxjs/toolkit"
 import { gamesAPI } from "../services/GamesServices"
+import filterSlice from "./reducers/filterSlice"
 
 
 const rootReducer = combineReducers({
+  filter: filterSlice,
   [gamesAPI.reducerPath]: gamesAPI.reducer
 })
 
