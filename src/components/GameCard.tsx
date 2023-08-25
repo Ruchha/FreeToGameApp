@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 interface Props {
     game: IGame;
 }
-const { Meta } = Card;
 
 const GameCard: React.FC<Props> = ({ game }) => {
     return (
@@ -17,7 +16,7 @@ const GameCard: React.FC<Props> = ({ game }) => {
                 style={{ width: '100%' }}
                 cover={<img src={game.thumbnail} alt={game.title} style={{ objectFit: 'cover', height: '200px' }} />}
             >
-                <Meta title={game.title} description={game.short_description} />
+                <Card.Meta title={game.title} description={game.short_description} />
             </Card>
             </Link>
         </Col>

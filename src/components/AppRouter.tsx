@@ -7,6 +7,7 @@ const AppRouter: FC = () => {
         <Routes>
             {publicRoutes.map(({path, Component}) =>
                 <Route key={path} path={path} element={<Component/>} />)}
+                <Route path='*'  element="/"/>
         </Routes>
 );
 };
