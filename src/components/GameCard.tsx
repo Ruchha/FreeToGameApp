@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card, Col } from 'antd';
+import { Card, Col, Tag, Typography } from 'antd';
+import { Link } from 'react-router-dom';
 import { IGame } from '../models/IGame';
-import { Link } from 'react-router-dom'
 
 interface Props {
     game: IGame;
@@ -9,17 +9,28 @@ interface Props {
 
 const GameCard: React.FC<Props> = ({ game }) => {
     return (
-        <Col xs={24} sm={10} md={6} lg={4} xl={3} style={{ marginBottom: '20px', padding: '0 10px' }}>
             <Link to={`/${game.id}`}>
-            <Card
-                hoverable
-                style={{ width: '100%' }}
-                cover={<img src={game.thumbnail} alt={game.title} style={{ objectFit: 'cover', height: '200px' }} />}
-            >
-                <Card.Meta title={game.title} description={game.short_description} />
-            </Card>
+                <Card
+                    hoverable
+                    cover=
+                    {
+                    <>
+                        <img src={game.thumbnail} alt={game.title} style={{ objectFit: 'cover', height: '160px' }} />
+                        <Tag style={{ position: 'absolute', top: 10, left: 10, width: "auto" }} color='black'>{game.genre}</Tag>
+                    </>
+                    }
+                >
+                    <Card.Meta
+                        title={game.title}
+                        description={
+                            <>
+                                <Typography.Paragraph type='secondary'><strong>Дата выхода:</strong> {game.release_date}</Typography.Paragraph>
+                                <Typography.Paragraph type='secondary'><strong>Издатель:</strong> {game.publisher}</Typography.Paragraph>
+                            </>
+                        }
+                    />
+                </Card>
             </Link>
-        </Col>
     );
 };
 

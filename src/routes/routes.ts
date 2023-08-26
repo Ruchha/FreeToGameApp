@@ -6,7 +6,7 @@ export interface IRoute {
     Component: React.ComponentType;
 }
 
-export const publicRoutes = [
+export const routes:IRoute[] = [
     {
         path:"/",
         Component:Home

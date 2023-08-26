@@ -9,7 +9,7 @@ const GamesFilter: FC = () => {
 
     return (
         <div style={{ padding: '20px', border: '1px solid #e8e8e8', borderRadius: '4px' }}>
-            <h2>Filter Games</h2>
+            <h2>Соритровка/Фильтрация</h2>
             <Radio.Group value={filter.platform} onChange={e => dispatch(setFilter({ key: 'platform', value: e.target.value }))}>
                 <Radio value="pc">Игры на компьютер</Radio>
                 <Radio value="browser">Браузерные игры</Radio>

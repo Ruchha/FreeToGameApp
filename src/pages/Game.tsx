@@ -1,10 +1,11 @@
 import {FC} from 'react';
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { gamesAPI } from '../services/GamesServices';
-import { Card, Carousel, Col, Image, Layout, Row, Skeleton } from 'antd';
-
+import { Button, Card, Col, Descriptions, Image, Layout, Row, Skeleton } from 'antd';
+import {LeftOutlined, RightOutlined} from '@ant-design/icons'
 import { Content } from 'antd/es/layout/layout';
 import NotFound from '../components/NotFound';
+import {MyCarousel as Carousel} from '../components/UI/MyCarousel';
 const Game: FC = () => {
     const {id} = useParams()
     const {data:game, error, isLoading} = gamesAPI.useFetchGameByIdQuery(Number(id))
@@ -29,6 +30,9 @@ const Game: FC = () => {
                         <Skeleton active/>
                         :
                         <>
+                        <Button type="primary">
+                            <Link to="/">На главную страницу</Link>
+                        </Button>
                         <Image src={game?.thumbnail} alt={game?.title} />
                         <Card.Meta title={game?.title} description={game?.short_description} />
                         </>}
@@ -50,13 +54,15 @@ const Game: FC = () => {
                         ?
                         <Skeleton active/>
                         :
-                        <>
-                        <p><strong>Жанр:</strong> {game?.genre}</p>
-                        <p><strong>Платформа:</strong> {game?.platform}</p>
-                        <p><strong>Издатель:</strong> {game?.publisher}</p>
-                        <p><strong>Разработчик:</strong> {game?.developer}</p>
-                        <p><strong>Дата выхода:</strong> {game?.release_date}</p>
-                        </>
+                        
+                        <Descriptions title="" >
+                          <Descriptions.Item label="Жанр">{game?.genre}</Descriptions.Item>
+                          <Descriptions.Item label="Платформа">{game?.platform}</Descriptions.Item>
+                          <Descriptions.Item label="Издатель">{game?.publisher}</Descriptions.Item>
+                          <Descriptions.Item label="Разработчик">{game?.developer}</Descriptions.Item>
+                          <Descriptions.Item label="Дата выхода" style={{textAlign:"center"}}>{game?.release_date}</Descriptions.Item>
+                        </Descriptions>
+                        
                         }
                         
                     </Card>
@@ -80,13 +86,13 @@ const Game: FC = () => {
                 <Col xs={24} sm={18} md={14} lg={12}>
                     <Card title="Скриншоты игры">
                         {isLoading ? <Skeleton active/> : 
-                        <Carousel autoplay>
-                             {game?.screenshots?.map(screenshot => (
+                        <Carousel>
+                            {game?.screenshots?.map(screenshot => (
                                  <div key={screenshot.id}>
                                      <Image src={screenshot.image} alt={`Screenshot ${screenshot.id}`} />
                                  </div>
                              ))}
-                         </Carousel>
+                        </Carousel>
                         }
 
                     </Card>
