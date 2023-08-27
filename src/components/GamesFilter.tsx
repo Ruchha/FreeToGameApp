@@ -1,7 +1,7 @@
 import { FC, useState, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { setFilter } from '../store/reducers/filterSlice';
-import { Button, Input, Popover, Radio, Select, Tag } from 'antd';
+import { Button, Input, Popover, Radio, Select, Tag, Typography } from 'antd';
 
 
 const tags = ["mmorpg", "shooter", "strategy", "moba", "racing", "sports", "social", "sandbox", "open-world", "survival", "pvp", "pve", "pixel", "voxel", "zombie", "turn-based", "first-person", "third-Person", "top-down", "tank", "space", "sailing", "side-scroller", "superhero", "permadeath", "card", "battle-royale", "mmo", "mmofps", "mmotps", "3d", "2d", "anime", "fantasy", "sci-fi", "fighting", "action-rpg", "action", "military", "martial-arts", "flight", "low-spec", "tower-defense", "horror", "mmorts"]
@@ -11,15 +11,15 @@ const GamesFilter: FC = () => {
     const dispatch = useAppDispatch();
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [open, setOpen] = useState(false);
-    const [search, setSearch] = useState("")
+    const [tagsSearch, setTagsSearch] = useState("")
 
-    function handleTagChange(tag: string, checked: boolean) {
+    const handleTagChange = (tag: string, checked: boolean) => {
         const nextSelectedTags = checked
             ? [...selectedTags, tag]
             : selectedTags.filter(t => t !== tag);
         setSelectedTags(nextSelectedTags);
     }
-    const filteredTags = useMemo(() => search ? [...tags].filter(tag => tag.includes(search)) : tags, [search])
+    const filteredTags = useMemo(() => tagsSearch ? [...tags].filter(tag => tag.toLowerCase().includes(tagsSearch.toLowerCase())) : tags, [tagsSearch])
 
     useEffect(() => {
         dispatch(setFilter({ key: 'tag', value: selectedTags.join(".") }))
@@ -29,6 +29,7 @@ const GamesFilter: FC = () => {
     return (
         <div style={{ padding: '20px', border: '1px solid #e8e8e8', borderRadius: '4px' }}>
             <h2>Соритровка/Фильтрация</h2>
+            
             <Radio.Group value={filter.platform} onChange={e => dispatch(setFilter({ key: 'platform', value: e.target.value }))}>
                 <Radio value="pc">Игры на компьютер</Radio>
                 <Radio value="browser">Браузерные игры</Radio>
@@ -53,7 +54,7 @@ const GamesFilter: FC = () => {
                 overlayStyle={{ width: "250px", height: "300px", overflowY: "scroll", boxShadow: "0px 5px 10px 1px gray" }}
                 content={
                     <>
-                    <Input value={search} onChange={e => setSearch(e.target.value)} style={{marginBottom:"10px"}} placeholder='Поиск'/>
+                    <Input value={tagsSearch} onChange={e => setTagsSearch(e.target.value)} style={{marginBottom:"10px"}} placeholder='Поиск'/>
                     {filteredTags.map(tag => (
                         <Tag.CheckableTag
                             key={tag}
@@ -64,10 +65,21 @@ const GamesFilter: FC = () => {
                         </Tag.CheckableTag>
                     ))}
                     </>
+
                 }
             >
-                <Button>Тэги</Button>
+                <Button>Теги</Button>
             </Popover>
+            {selectedTags.length > 0 && <Typography.Text>Выбранные тэги: </Typography.Text>}
+            {selectedTags?.map(selectedTag => 
+                <Tag
+                key={selectedTag}
+                closeIcon
+                onClose={() => handleTagChange(selectedTag, false)}
+                >
+                    {selectedTag}
+                </Tag>
+                )}
         </div>
     );
 };

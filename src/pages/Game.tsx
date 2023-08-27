@@ -2,14 +2,12 @@ import {FC} from 'react';
 import { Link, useParams } from 'react-router-dom'
 import { gamesAPI } from '../services/GamesServices';
 import { Button, Card, Col, Descriptions, Image, Layout, Row, Skeleton } from 'antd';
-import {LeftOutlined, RightOutlined} from '@ant-design/icons'
 import { Content } from 'antd/es/layout/layout';
 import NotFound from '../components/NotFound';
 import {MyCarousel as Carousel} from '../components/UI/MyCarousel';
 const Game: FC = () => {
     const {id} = useParams()
     const {data:game, error, isLoading} = gamesAPI.useFetchGameByIdQuery(Number(id))
-    console.log(error)
 
     if(error){
         if('status' in error){

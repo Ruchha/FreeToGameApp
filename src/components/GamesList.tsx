@@ -1,48 +1,38 @@
-import { FC, useState, useEffect } from 'react';
-import { gamesAPI } from '../services/GamesServices';
+import { FC, useState, useMemo } from 'react';
 import GameCard from './GameCard';
-import { Alert, Row, Spin } from 'antd'
-import { useAppSelector } from '../hooks/redux';
+import { Input, Row, Spin, Typography } from 'antd'
+import { IGame } from '../models/IGame';
 
-const MAX_RETRIES = 3;
 
-const GamesList: FC = () => {
-    const filter = useAppSelector(state => state.filter)
-    console.log(filter)
-    const [retryCount, setRetryCount] = useState(0)
-    
-    const {data: games, isFetching, error, refetch} = gamesAPI.useFetchGamesQuery(filter,{
-        skip: retryCount >= MAX_RETRIES,
-    })
-    console.log(error)
-    useEffect(() => {
-        if (error && 'status' in error && retryCount < MAX_RETRIES) {
-            const timer = setTimeout(() => {
-                setRetryCount(prev => prev + 1)
-                refetch()
-            }, 2000)
-            return () => clearTimeout(timer)
-        }
-    }, [error, retryCount, refetch])
-    
-   
+interface Props{
+    games: IGame[] | undefined;
+    isFetching: boolean;
+}
+
+const GamesList: FC<Props> = ({ games, isFetching }) => {
+    const [gamesSearch, setGamesSearch] = useState("")
+    const searchedGames = useMemo(() => gamesSearch ? games?.filter(game => game.title.toLowerCase().includes(gamesSearch.toLowerCase())) : games, [gamesSearch, games])
+
 
     return (
-        <>      
-        <Row justify="space-evenly"  style={{ marginTop: "20px", gap:"20px" }}>
-            {(error && 'status' in error) && <Alert message={`${error.status}, Повторных попыток осталось: ${MAX_RETRIES - retryCount}`} type="error"/>}
+           <>
+        <Input value={gamesSearch} onChange={e => setGamesSearch(e.target.value)} placeholder='Поиск по названию'/>
+        <Row justify="center"  style={{ marginTop: "20px", gap:"20px" }}>
             {isFetching
             ?
             <Spin style={{margin:"0 auto"}} size='large'/>
             :
-            games?.map(game => (
-                
+            games?.length
+            ?
+            searchedGames?.map(game =>     
                 <GameCard key={game.id} game={game} />
-            ))}
-
+            )
+            :
+            <Typography.Paragraph type='warning'>Игр не найдено :( Попробуйте изменить настройки фильтра</Typography.Paragraph>
+            }
         </Row>
-       
-        </>
+            </>
+        
 );
 };
 
