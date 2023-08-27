@@ -9,6 +9,8 @@ interface Props {
 
 const GameCard: React.FC<Props> = ({ game }) => {
     return (
+        // fix col
+        <Col>
             <Link to={`/${game.id}`}>
                 <Card
                     hoverable
@@ -31,6 +33,7 @@ const GameCard: React.FC<Props> = ({ game }) => {
                     />
                 </Card>
             </Link>
+            </Col>
     );
 };
 

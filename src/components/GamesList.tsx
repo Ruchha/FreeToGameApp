@@ -14,7 +14,7 @@ const GamesList: FC = () => {
     const {data: games, isFetching, error, refetch} = gamesAPI.useFetchGamesQuery(filter,{
         skip: retryCount >= MAX_RETRIES,
     })
-
+    console.log(error)
     useEffect(() => {
         if (error && 'status' in error && retryCount < MAX_RETRIES) {
             const timer = setTimeout(() => {
@@ -36,7 +36,7 @@ const GamesList: FC = () => {
             <Spin style={{margin:"0 auto"}} size='large'/>
             :
             games?.map(game => (
-
+                
                 <GameCard key={game.id} game={game} />
             ))}
 

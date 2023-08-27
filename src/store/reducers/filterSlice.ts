@@ -7,12 +7,14 @@ interface FilterState {
     "platform": string;
     "category": string;
     "sort-by": string;
+    "tag": string;
 }
 
 const initialState : FilterState = {
+    "tag":"",
     "platform": "all",
     "category": "",
-    "sort-by": ""
+    "sort-by": "",
 }
 
 export const filterSlice = createSlice({
@@ -26,6 +28,7 @@ export const filterSlice = createSlice({
             state.category = ""
             state.platform = ""
             state["sort-by"] = ""
+            state.tag= ""
         }
     }
 })
