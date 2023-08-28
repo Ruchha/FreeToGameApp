@@ -1,7 +1,8 @@
 import React from 'react';
-import { Card, Col, Tag, Typography } from 'antd';
+import { Card, Col, Image, Tag, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { IGame } from '../models/IGame';
+import { formatDate } from '../utils/formatDate';
 
 interface Props {
     game: IGame;
@@ -12,11 +13,12 @@ const GameCard: React.FC<Props> = ({ game }) => {
         <Col xs={24} sm={10} md={6} lg={5} xl={4} xxl={3}>
             <Link to={`/${game.id}`}>
                 <Card
+                    style={{margin:"0px 10px 0px 10px"}}
                     hoverable
                     cover=
                     {
                     <>
-                        <img src={game.thumbnail} alt={game.title} style={{ objectFit: 'cover', height: '160px' }} />
+                        <Image preview={false} src={game.thumbnail} alt={game.title} style={{ objectFit: 'cover', height: '160px' }} />
                         <Tag style={{ position: 'absolute', top: 10, left: 10, width: "auto" }} color='black'>{game.genre}</Tag>
                     </>
                     }
@@ -25,7 +27,7 @@ const GameCard: React.FC<Props> = ({ game }) => {
                         title={game.title}
                         description={
                             <>
-                                <Typography.Paragraph type='secondary'><strong>Дата выхода:</strong> {game.release_date}</Typography.Paragraph>
+                                <Typography.Paragraph type='secondary'><strong>Дата выхода:</strong> {formatDate(game.release_date)}</Typography.Paragraph>
                                 <Typography.Paragraph type='secondary'><strong>Издатель:</strong> {game.publisher}</Typography.Paragraph>
                             </>
                         }

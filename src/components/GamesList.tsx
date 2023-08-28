@@ -1,6 +1,6 @@
 import { FC, useState, useMemo } from 'react';
 import GameCard from './GameCard';
-import { Input, Row, Spin, Typography } from 'antd'
+import { Divider, Input, Row, Spin, Typography } from 'antd'
 import { IGame } from '../models/IGame';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -16,9 +16,12 @@ const GamesList: FC<Props> = ({ games, isFetching }) => {
 
     return (
         <>
-        <Input prefix={<SearchOutlined />} value={gamesSearch} onChange={e => setGamesSearch(e.target.value)} placeholder='Поиск по названию'/>
-
+        <Row justify="center">
+            <Input prefix={<SearchOutlined />} value={gamesSearch} onChange={e => setGamesSearch(e.target.value)} placeholder='Поиск по названию' style={{width: "50%"}}/>
+        </Row>
+        <Divider/>
         <Row justify="center"  style={{ marginTop: "20px", gap:"20px" }}>
+
             {isFetching
             ?
             <Spin style={{margin:"0 auto"}} size='large'/>

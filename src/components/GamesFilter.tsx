@@ -34,9 +34,10 @@ const GamesFilter: FC = () => {
                     value={filter.platform}
                     onChange={e => dispatch(setFilter({ key: 'platform', value: e.target.value }))}
                 >
+                    <Radio value="all">Все</Radio>
                     <Radio value="pc">Игры на компьютер</Radio>
                     <Radio value="browser">Браузерные игры</Radio>
-                    <Radio value="all">Все</Radio>
+
                 </Radio.Group>
                 <Select
                     style={{width: '150px', marginBottom: '20px'  }}
