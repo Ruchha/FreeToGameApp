@@ -24,7 +24,6 @@ export const gamesAPI = createApi({
                     queryParams.set(key, value);
                 }
             });
-            console.log(queryParams.toString())
               return queryParams.toString().includes("tag") ? `filter?${queryParams.toString()}` : `games?${queryParams.toString()}`; // Так как эндпоинт games не подразумевает несколько тэгов сразу, пришлось сделать проверку и использовать другой эндпоинт filter
             },
           }),

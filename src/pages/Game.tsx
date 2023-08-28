@@ -1,14 +1,16 @@
 import {FC} from 'react';
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { gamesAPI } from '../services/GamesServices';
 import { Button, Card, Col, Descriptions, Image, Layout, Row, Skeleton } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import NotFound from '../components/NotFound';
 import {MyCarousel as Carousel} from '../components/UI/MyCarousel';
+import { PageHeader } from '@ant-design/pro-components';
+import { formatDate } from '../utils/formatDate';
 const Game: FC = () => {
     const {id} = useParams()
     const {data:game, error, isLoading} = gamesAPI.useFetchGameByIdQuery(Number(id))
-
+    const navigate = useNavigate()
     if(error){
         if('status' in error){
             if(error.status === 404){
@@ -19,8 +21,14 @@ const Game: FC = () => {
 
     return (
         <Layout.Content>
+
         <Content style={{ padding: '20px' }}>
-            <Row gutter={[16, 16]} justify="center">
+        <PageHeader
+            title={"Вернуться назад"}
+            onBack={() => navigate("/")}
+            style={{background:"white", borderRadius: "8px", marginBottom:"10px"}}
+            />
+            <Row gutter={[16, 16]} justify="center">      
                 <Col xs={24} sm={18} md={14} lg={12}>
                     <Card>
                         {isLoading
@@ -28,9 +36,6 @@ const Game: FC = () => {
                         <Skeleton active/>
                         :
                         <>
-                        <Button type="primary">
-                            <Link to="/">На главную страницу</Link>
-                        </Button>
                         <Image src={game?.thumbnail} alt={game?.title} />
                         <Card.Meta title={game?.title} description={game?.short_description} />
                         </>}
@@ -58,7 +63,7 @@ const Game: FC = () => {
                           <Descriptions.Item label="Платформа">{game?.platform}</Descriptions.Item>
                           <Descriptions.Item label="Издатель">{game?.publisher}</Descriptions.Item>
                           <Descriptions.Item label="Разработчик">{game?.developer}</Descriptions.Item>
-                          <Descriptions.Item label="Дата выхода" style={{textAlign:"center"}}>{game?.release_date}</Descriptions.Item>
+                          <Descriptions.Item label="Дата выхода" style={{textAlign:"center"}}>{formatDate(game?.release_date!)}</Descriptions.Item>
                         </Descriptions>
                         
                         }
