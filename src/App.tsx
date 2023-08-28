@@ -8,11 +8,11 @@ const App: FC = () => {
 
   return (
     <Layout>
-      <Navbar/>
-      <AppRouter/>
+      <Navbar />
+      <AppRouter />
     </Layout>
 
-);
+  );
 };
 
 export default App

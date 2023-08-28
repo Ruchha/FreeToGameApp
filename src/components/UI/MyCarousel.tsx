@@ -30,10 +30,10 @@ const CustomNextArrow: FC<ArrowProps> = ({onClick}) => {
 };
 
 
-export const MyCarousel: FC<CarouselProps> = ({children}) => {
+export const MyCarousel: FC<CarouselProps> = ({ children }) => {
     return (
-        <Carousel arrows prevArrow={<CustomPrevArrow />} nextArrow={<CustomNextArrow />}>
-        {children}
+        <Carousel draggable arrows prevArrow={<CustomPrevArrow />} nextArrow={<CustomNextArrow />}>
+        { children }
       </Carousel>
 );
 };

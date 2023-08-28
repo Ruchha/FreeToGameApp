@@ -1,7 +1,7 @@
-export interface IGame{
+export interface IGame {
     id: number;
     title: string;
-    thumbnail:string;
+    thumbnail: string;
     developer: string;
     genre: string;
     platform: string;
@@ -9,18 +9,18 @@ export interface IGame{
     release_date: string;
     short_description: string;
     minimum_system_requirements?: {
-        os:string;
-        processor:string;
-        graphics:string;
-        storage:string;
-        memory:string;
+        os: string;
+        processor: string;
+        graphics: string;
+        storage: string;
+        memory: string;
     }
-    description?:string;
-    screenshots?:Screenshots[]
-    
+    description?: string;
+    screenshots?: Screenshots[]
+
 }
 
 interface Screenshots {
-    id:number;
+    id: number;
     image: string;
 }

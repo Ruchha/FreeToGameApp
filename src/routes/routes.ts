@@ -6,13 +6,13 @@ export interface IRoute {
     Component: React.ComponentType;
 }
 
-export const routes:IRoute[] = [
+export const routes: IRoute[] = [
     {
-        path:"/",
-        Component:Home
+        path: "/",
+        Component: Home
     },
     {
-        path:"/:id",
-        Component:Game
+        path: "/:id",
+        Component: Game
     }
 ]
