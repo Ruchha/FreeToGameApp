@@ -9,7 +9,9 @@ const App: FC = () => {
   return (
     <Layout>
       <Navbar />
+      <Layout.Content>
       <AppRouter />
+      </Layout.Content>
     </Layout>
 
   );

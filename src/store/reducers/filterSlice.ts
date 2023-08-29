@@ -4,16 +4,14 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface FilterState {
     [key: string]: string;
-    "platform": string;
-    "category": string;
-    "sort-by": string;
-    "tag": string;
+    platform: "all" | "pc" | "browser";
+    "sort-by": "release-date" | "popularity" | "alphabetical" | "";
+    tag: string;
 }
 
 const initialState: FilterState = {
-    "tag": "",
-    "platform": "all",
-    "category": "",
+    tag: "",
+    platform: "all",
     "sort-by": "",
 }
 
@@ -25,7 +23,6 @@ export const filterSlice = createSlice({
             state[action.payload.key] = action.payload.value
         },
         removeFilter(state) {
-            state.category = ""
             state.platform = "all"
             state["sort-by"] = ""
             state.tag = ""

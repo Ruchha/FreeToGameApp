@@ -26,21 +26,11 @@ const Home: FC = () => {
     }, [error, retryCount, refetch])
 
     return (
-        <Layout.Content style={{display:"flex", flexDirection:"column"}}>
+        <Layout style={{display:"flex", flexDirection:"column"}}>
             <GamesFilter />
             {(error && 'status' in error) && <Alert message={`${error.status}, Повторных попыток осталось: ${MAX_RETRIES - retryCount}`} type="error" />}
-            {isFetching
-            ?
-            <Spin size='large' />
-            :
-            games?.length
-            ?
-            <GamesList games={games}/>
-            :
-            <Typography.Paragraph style={{textAlign:"center"}} type='warning'>Игр не найдено :( Попробуйте изменить настройки фильтра</Typography.Paragraph>
-            }
-            
-        </Layout.Content>
+            <GamesList games={games} isFetching={isFetching}/>            
+        </Layout>
     );
 };
 

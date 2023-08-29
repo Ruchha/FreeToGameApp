@@ -30,7 +30,7 @@ const GamesFilter: FC = () => {
     }, [selectedTags])
 
     return (
-        <Layout.Content style={{ marginLeft: "50px", marginTop: "20px" }}>
+        <div style={{ marginLeft: "50px", marginTop: "20px" }}>
             <Typography.Title level={3} style={{ marginBottom: '20px' }}>Сортировка/Фильтрация {(filter.category || filter['sort-by'] || filter.tag) && <Button onClick={clearFilter} icon={<DeleteOutlined />}>Отчистить фильтр</Button>}</Typography.Title>
             <Radio.Group
                 style={{ marginBottom: '20px' }}
@@ -91,7 +91,7 @@ const GamesFilter: FC = () => {
                 </Tag>
             ))}
 
-        </Layout.Content>
+        </div>
     );
 };
 
