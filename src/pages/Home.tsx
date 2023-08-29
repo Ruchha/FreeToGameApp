@@ -16,21 +16,24 @@ const Home: FC = () => {
         skip: retryCount >= MAX_RETRIES,
     })
     const [currentGames, setCurrentGames] = useState<IGame[]>([])
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(50)
 
-    function handlePageChange(page:number, pageSize:number){
-        if(games?.length){
-            const startIndex = (page - 1) * pageSize;
-            const endIndex = startIndex + pageSize;
-            setCurrentGames(games?.slice(startIndex, endIndex))
-            window.scrollTo(0,0)
-        }
+    function handlePageChange(page: number, pageSize: number) {
+        setPage(page);
+        setPageSize(pageSize);
+        window.scrollTo(0, 0);
     }
 
     useEffect(() => {
-        if(games?.length){
-            setCurrentGames(games.slice(0, 30))
+        if (games?.length) {
+            const startIndex = (page - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            setCurrentGames(games.slice(startIndex, endIndex));
+        } else {
+            setCurrentGames([]);
         }
-    },[games])
+    }, [page, pageSize, games]);
 
     useEffect(() => {
         if (error && 'status' in error && retryCount < MAX_RETRIES) {
@@ -47,7 +50,7 @@ const Home: FC = () => {
             <GamesFilter />
             {(error && 'status' in error) && <Alert message={`${error.status}, Повторных попыток осталось: ${MAX_RETRIES - retryCount}`} type="error" />}
             <GamesList games={currentGames} isFetching={isFetching}/>       
-            <Pagination style={{margin:"0px auto", marginBottom:"20px"}} hideOnSinglePage defaultCurrent={1} pageSize={30} total={games?.length} onChange={(page, pageSize) => handlePageChange(page, pageSize)}/>     
+            <Pagination style={{margin:"0px auto", marginBottom:"20px"}} hideOnSinglePage current={page} pageSize={pageSize} total={games?.length} onChange={(page, pageSize) => handlePageChange(page, pageSize)}/>     
         </Layout>
     );
 };

@@ -3,14 +3,11 @@ import { IGame } from '../models/IGame'
 export const gamesAPI = createApi({
     reducerPath: "gamesAPI",
     baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.VITE_RAPID_API_URL,
+        baseUrl: "/api",
         prepareHeaders: headers => {
-             headers.set("X-RapidAPI-Key", import.meta.env.VITE_RAPID_KEY) // Напрямую Free-To-Play API дает CORS, использую RapidAPI
-             headers.set("X-RapidAPI-Host", import.meta.env.VITE_RAPID_HOST) 
             return headers
         }
     }),
-
     endpoints: build => ({
         fetchGameById: build.query<IGame, number>({
             query: id => `game?id=${id}`,
@@ -31,4 +28,3 @@ export const gamesAPI = createApi({
     })
 
 })
-// Free-To-Play не предоставляет пагинацию, как ее сделать, и нужно ли в таком случае?

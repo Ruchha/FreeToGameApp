@@ -6,6 +6,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     open: true,
+    proxy:{
+      "/api": {
+        target: "https://www.freetogame.com/",
+        changeOrigin:true
+      }
+    },
   },
   build: {
     outDir: "build",
