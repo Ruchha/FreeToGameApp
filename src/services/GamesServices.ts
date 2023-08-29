@@ -3,10 +3,10 @@ import { IGame } from '../models/IGame'
 export const gamesAPI = createApi({
     reducerPath: "gamesAPI",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://www.freetogame.com/api/",
+        baseUrl: import.meta.env.VITE_RAPID_API_URL,
         prepareHeaders: headers => {
-            // headers.set("X-RapidAPI-Key", import.meta.env.VITE_RAPID_KEY) // Напрямую Free-To-Play API дает CORS, использую RapidAPI
-            // headers.set("X-RapidAPI-Host", import.meta.env.VITE_RAPID_HOST) 
+             headers.set("X-RapidAPI-Key", import.meta.env.VITE_RAPID_KEY) // Напрямую Free-To-Play API дает CORS, использую RapidAPI
+             headers.set("X-RapidAPI-Host", import.meta.env.VITE_RAPID_HOST) 
             return headers
         }
     }),
