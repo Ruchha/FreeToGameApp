@@ -46,7 +46,6 @@ const Home: FC = () => {
             return () => clearTimeout(timer)
         }
     }, [error, retryCount, refetch])
-
     return (
         <Layout>
             <GamesFilter />

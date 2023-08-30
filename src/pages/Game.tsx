@@ -21,12 +21,14 @@ const Game: FC = () => {
     return (
         <Col style={{ padding: "20px" }}>
             {(error && 'status' in error) && <Alert message={error.status} type="error" style={{marginBottom:"20px"}} />}
+            
             <PageHeader
                 title={game?.title}
                 onBack={() => navigate("/")}
-                style={{ background: "white", borderRadius: "8px", marginBottom: "20px" }}
+                style={{ background: "white", borderRadius: "8px", marginBottom: "20px"}}
             />
             <GameDetails game={game} isLoading={isLoading} />
+            
         </Col>
     );
 }

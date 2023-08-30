@@ -13,22 +13,31 @@ const GamesFilter: FC = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [tagsSearch, setTagsSearch] = useState<string>('');
 
+    const filteredTags = useMemo(() => tagsSearch ? [...tags].filter(tag => tag.toLowerCase().includes(tagsSearch.toLowerCase())) : tags, [tagsSearch])
+
     const handleTagChange = (tag: string, checked: boolean) => {
         const nextSelectedTags = checked
             ? [...selectedTags, tag]
             : selectedTags.filter(t => t !== tag);
         setSelectedTags(nextSelectedTags)
     };
+
     const clearFilter = () => {
         setSelectedTags([])
         dispatch(removeFilter())
     }
-    const filteredTags = useMemo(() => tagsSearch ? [...tags].filter(tag => tag.toLowerCase().includes(tagsSearch.toLowerCase())) : tags, [tagsSearch])
 
     useEffect(() => {
-        dispatch(setFilter({ key: 'tag', value: selectedTags.join(".") }))
+        if(filter && filter.tag){
+            setSelectedTags(filter.tag.split("."))
+        }
+    },[])
+
+    useEffect(() => {
+            dispatch(setFilter({ key: 'tag', value: selectedTags.join(".") }))
     }, [selectedTags])
 
+    
     return (
         <div style={{ marginLeft: "50px", marginTop: "20px" }}>
             <Typography.Title level={3} style={{ marginBottom: '20px' }}>Сортировка/Фильтрация {(filter.category || filter['sort-by'] || filter.tag) && <Button onClick={clearFilter} icon={<DeleteOutlined />}>Отчистить фильтр</Button>}</Typography.Title>
