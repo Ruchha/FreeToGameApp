@@ -1,10 +1,11 @@
 import { FC, useState, useEffect } from 'react';
 import GamesList from '../components/GamesList';
 import GamesFilter from '../components/GamesFilter';
-import { Alert, Layout, Pagination } from 'antd';
+import { Alert, Divider, Layout, Pagination, Spin, Typography } from 'antd';
 import { useAppSelector } from '../hooks/redux';
 import { gamesAPI } from '../services/GamesServices';
 import { IGame } from '../models/IGame';
+
 
 const MAX_RETRIES = 3;
 
@@ -12,7 +13,7 @@ const Home: FC = () => {
 
     const filter = useAppSelector(state => state.filter)
     const [retryCount, setRetryCount] = useState(0)
-    const { data: games, isFetching, error, refetch } = gamesAPI.useFetchGamesQuery(filter, {
+    const { data: games, isFetching, error, refetch, isLoading } = gamesAPI.useFetchGamesQuery(filter, {
         skip: retryCount >= MAX_RETRIES,
     })
     const [currentGames, setCurrentGames] = useState<IGame[]>([])
@@ -30,8 +31,9 @@ const Home: FC = () => {
             const startIndex = (page - 1) * pageSize;
             const endIndex = startIndex + pageSize;
             setCurrentGames(games.slice(startIndex, endIndex));
-        } else {
-            setCurrentGames([]);
+        }
+        else {
+            setCurrentGames([])
         }
     }, [page, pageSize, games]);
 
@@ -46,11 +48,24 @@ const Home: FC = () => {
     }, [error, retryCount, refetch])
 
     return (
-        <Layout style={{display:"flex", flexDirection:"column"}}>
+        <Layout>
             <GamesFilter />
             {(error && 'status' in error) && <Alert message={`${error.status}, Повторных попыток осталось: ${MAX_RETRIES - retryCount}`} type="error" />}
-            <GamesList games={currentGames} isFetching={isFetching}/>       
-            <Pagination style={{margin:"0px auto", marginBottom:"20px"}} hideOnSinglePage current={page} pageSize={pageSize} total={games?.length} onChange={(page, pageSize) => handlePageChange(page, pageSize)}/>     
+            {isFetching || isLoading
+            ?
+            <Spin size='large'/>
+            :
+            games && games.length
+            ?
+            <>
+            <GamesList games={currentGames}/>
+            <Divider />
+            <Pagination style={{margin:"0px auto", marginBottom:"20px"}} current={page} pageSize={pageSize} total={games?.length} onChange={(page, pageSize) => handlePageChange(page, pageSize)}/>
+            </>
+            :
+            <Typography.Paragraph style={{textAlign:"center"}} type='warning'>Игр не найдено :( Попробуйте изменить настройки сортировки/фильтрации/поиска</Typography.Paragraph> 
+            }
+
         </Layout>
     );
 };
